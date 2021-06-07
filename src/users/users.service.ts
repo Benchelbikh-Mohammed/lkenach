@@ -14,9 +14,12 @@ export class UsersService {
         private readonly model: Model<UserDocument>,
     ) {}
 
-    async findByEmail(email: string): Promise<User> {
+    async find(email: string, password: string): Promise<User> {
         try {
-            return await this.model.findOne({ email }).exec();
+            const encryptedPass = this.encryptPassword(password);
+            return await this.model
+                .findOne({ email, password: encryptedPass })
+                .exec();
         } catch (error) {
             Logger.error(error);
             return null;

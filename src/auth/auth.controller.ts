@@ -24,7 +24,10 @@ export class AuthController {
         const validatedUser = await this.authService.validate(userLoginDto);
         console.log(validatedUser);
         if (!validatedUser) {
-            throw new HttpException('user not found', HttpStatus.NOT_FOUND);
+            throw new HttpException(
+                'invalid credentials',
+                HttpStatus.NOT_FOUND,
+            );
         }
         return this.authService.login(validatedUser);
     }

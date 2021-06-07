@@ -18,7 +18,8 @@ export class AuthService {
 
     public async validate(userLoginDto: UserLoginDto): Promise<User> {
         try {
-            return await this.userService.findByEmail(userLoginDto.email);
+            const { email, password } = userLoginDto;
+            return await this.userService.find(email, password);
         } catch (error) {
             Logger.error(error);
             return null;
