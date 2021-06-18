@@ -35,7 +35,7 @@ export class UsersController {
             );
         }
 
-        user.roles = usersRolesDto.roles;
+        user.roles = usersRolesDto.roles.map((role) => role.roleCode);
 
         const updatedUser = await this.usersService.save(user);
         if (!updatedUser) {

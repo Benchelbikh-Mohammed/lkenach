@@ -19,7 +19,15 @@ import { RolesService } from 'src/roles/roles.service';
         forwardRef(() => UsersModule),
         forwardRef(() => RolesModule),
         PassportModule.register({ defaultStrategy: 'jwt' }),
-        JwtModule.registerAsync(jwtConfig),
+        JwtModule.registerAsync({
+            imports: [ConfigModule],
+            useFactory: async (configService: ConfigService) =>
+                ({
+                    secret: configService.get('JWT_SECRET_KEY'),
+                    expiresIn: configService.get('JWT_EXPIRATION_DELAY'),
+                } as any),
+            inject: [ConfigService],
+        }),
     ],
     controllers: [AuthController],
     providers: [
@@ -33,5 +41,6 @@ import { RolesService } from 'src/roles/roles.service';
         AppAuthGuard,
         RolesGuard,
     ],
+    exports: [JwtModule],
 })
 export class AuthModule {}

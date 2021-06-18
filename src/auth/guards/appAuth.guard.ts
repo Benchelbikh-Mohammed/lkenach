@@ -22,6 +22,7 @@ export class AppAuthGuard extends AuthGuard('jwt') {
             'public',
             context.getHandler(),
         );
+
         if (isPublic) {
             return true;
         }
@@ -31,6 +32,7 @@ export class AppAuthGuard extends AuthGuard('jwt') {
     }
     handleRequest(err, user, info) {
         if (err || !user) {
+            console.log('handleRequest');
             throw err || new UnauthorizedException();
         }
         return user;

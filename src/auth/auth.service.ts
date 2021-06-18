@@ -18,6 +18,35 @@ export class AuthService {
 
     public async validate(userLoginDto: UserLoginDto): Promise<User> {
         try {
+            const { email } = userLoginDto;
+            const user = await this.userService.findEmail(email);
+
+            const { _id, password, isActive } = user;
+
+            return {
+                _id,
+                email,
+                password,
+                isActive,
+                roles: await this.formatRoles(user.roles),
+            };
+        } catch (error) {
+            Logger.error(error);
+            return null;
+        }
+    }
+
+    async formatRoles(userRoles) {
+        let roles = await this.userService.getRoles();
+        // console.log(roles);
+        roles = roles.filter((role) => userRoles.indexOf(role._id) != -1);
+        return roles.map((role) => role.roleCode);
+    }
+
+    public async validateEmailPassword(
+        userLoginDto: UserLoginDto,
+    ): Promise<User> {
+        try {
             const { email, password } = userLoginDto;
             return await this.userService.find(email, password);
         } catch (error) {
@@ -27,12 +56,12 @@ export class AuthService {
     }
 
     public async login(user: User): Promise<any | { status: number }> {
-        console.log(user);
-        const roles = user.roles.map((userRole: Role) => userRole?.roleCode);
+        // console.log(user);
+
         const userPayload = {
             email: user.email,
             isActive: user.isActive,
-            roles,
+            roles: await this.formatRoles(user.roles),
         };
         const accessToken = this.jwtService.sign(userPayload);
 

@@ -15,10 +15,10 @@ import { JwtModule } from '@nestjs/jwt';
 @Module({
     imports: [
         ConfigModule.forRoot(),
+        ProductModule,
         MongooseModule.forRootAsync(mongooseConfigAsync),
         AuthModule,
-        JwtModule.registerAsync(jwtConfig),
-        ProductModule,
+        // JwtModule.registerAsync(jwtConfig),
         UsersModule,
         RolesModule,
     ],

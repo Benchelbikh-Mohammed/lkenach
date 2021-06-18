@@ -5,6 +5,7 @@ import { RolesService } from '../roles/roles.service';
 import { RoleCode } from '../roles/entities/roleCode.enum';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Role } from 'src/roles/entities/role.entity';
 
 @Injectable()
 export class UsersService {
@@ -14,12 +15,38 @@ export class UsersService {
         private readonly model: Model<UserDocument>,
     ) {}
 
+    async getRoles() {
+        try {
+            return await this.roleService.findAll();
+        } catch (error) {
+            Logger.error(error);
+            return null;
+        }
+    }
+    async getRole(id: Role) {
+        try {
+            return await this.roleService.findById(id);
+        } catch (error) {
+            Logger.error(error);
+            return null;
+        }
+    }
+
     async find(email: string, password: string): Promise<User> {
         try {
             const encryptedPass = this.encryptPassword(password);
             return await this.model
                 .findOne({ email, password: encryptedPass })
                 .exec();
+        } catch (error) {
+            Logger.error(error);
+            return null;
+        }
+    }
+
+    async findEmail(email: string): Promise<User> {
+        try {
+            return await this.model.findOne({ email }).exec();
         } catch (error) {
             Logger.error(error);
             return null;
@@ -40,11 +67,11 @@ export class UsersService {
         user.isActive = false;
         try {
             const userRole = await this.roleService.findByRoleCode(
-                RoleCode.USER,
+                RoleCode.ADMIN,
             );
 
             user.roles.push(userRole);
-            console.log(user);
+            // console.log(user);
             return await this.save(user);
         } catch (error) {
             Logger.error(error);

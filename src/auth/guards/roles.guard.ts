@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
 import { Role } from '../../roles/entities/role.entity';
 import { User } from 'src/users/entities/user.entity';
-
-/**
+import { RoleCode } from '../../roles/entities/roleCode.enum';
+/**s
  * Role auth guard to control app's endpoint access with specific roles.
  * This guard needs to be filled on each endpoint which need specifics roles to be used.
  */
@@ -16,21 +16,28 @@ export class RolesGuard implements CanActivate {
         context: ExecutionContext,
     ): boolean | Promise<boolean> | Observable<boolean> {
         const request = context.switchToHttp().getRequest();
-        const user: User = request.user;
-
-        if (!user.isActive) {
+        const user = request.user;
+        // console.log(Object.keys(request));
+        if (user && !user.isActive) {
+            console.log('gotchaa');
             return false;
         }
 
-        const roles = this.reflector.get<Role[]>('roles', context.getHandler());
+        const roles = this.reflector.get<RoleCode[]>(
+            'roleCodes',
+            context.getHandler(),
+        );
+        // console.log(roles);
         if (!roles) {
             return true;
         }
 
-        return this.hasRole(roles, user.roles);
+        return this.hasRole(roles, user && user.roles);
     }
 
-    private hasRole(roles: Role[], userRoles: Role[]) {
+    private hasRole(roles: RoleCode[], userRoles: Role[] | RoleCode[]) {
+        console.log(roles, userRoles);
+
         return userRoles.some(
             (userRole) => roles.find((role) => role === userRole) != null,
         );

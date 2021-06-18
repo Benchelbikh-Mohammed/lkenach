@@ -21,8 +21,10 @@ export class AuthController {
     @Post('login')
     @UseInterceptors(ClassSerializerInterceptor)
     async login(@Body() userLoginDto: UserLoginDto): Promise<User> {
-        const validatedUser = await this.authService.validate(userLoginDto);
-        console.log(validatedUser);
+        const validatedUser = await this.authService.validateEmailPassword(
+            userLoginDto,
+        );
+        // console.log(validatedUser);s
         if (!validatedUser) {
             throw new HttpException(
                 'invalid credentials',
