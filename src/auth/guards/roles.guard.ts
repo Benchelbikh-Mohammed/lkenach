@@ -35,11 +35,12 @@ export class RolesGuard implements CanActivate {
         return this.hasRole(roles, user && user.roles);
     }
 
-    private hasRole(roles: RoleCode[], userRoles: Role[] | RoleCode[]) {
-        console.log(roles, userRoles);
+    private hasRole(roles: RoleCode[], userRoles: Role[]) {
+        // console.log(roles, userRoles);
 
         return userRoles.some(
-            (userRole) => roles.find((role) => role === userRole) != null,
+            (userRole) =>
+                roles.find((role) => role === userRole.roleCode) != null,
         );
     }
 }

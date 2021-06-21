@@ -11,6 +11,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { jwtConfig } from './config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
+import { StoreModule } from './store/store.module';
 
 @Module({
     imports: [
@@ -21,6 +22,7 @@ import { JwtModule } from '@nestjs/jwt';
         // JwtModule.registerAsync(jwtConfig),
         UsersModule,
         RolesModule,
+        StoreModule,
     ],
     controllers: [AppController],
     providers: [AppService, AuthService],

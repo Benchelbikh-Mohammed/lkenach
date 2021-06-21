@@ -32,11 +32,11 @@ export class RolesService {
         }
     }
 
-    async findByRoleCode(roleCode: RoleCode): Promise<RoleCode> {
+    async findByRoleCode(roleCode: RoleCode): Promise<Role> {
         try {
             const role = await this.model.findOne({ roleCode }).exec();
 
-            return role && role.roleCode;
+            return role;
         } catch (error) {
             Logger.error(error);
             return null;

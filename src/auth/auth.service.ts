@@ -40,7 +40,7 @@ export class AuthService {
         let roles = await this.userService.getRoles();
         // console.log(roles);
         roles = roles.filter((role) => userRoles.indexOf(role._id) != -1);
-        return roles.map((role) => role.roleCode);
+        return roles;
     }
 
     public async validateEmailPassword(

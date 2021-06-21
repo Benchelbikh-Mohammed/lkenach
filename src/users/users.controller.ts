@@ -35,8 +35,7 @@ export class UsersController {
             );
         }
 
-        user.roles = usersRolesDto.roles.map((role) => role.roleCode);
-
+        user.roles = await this.formatRoles(usersRolesDto.roles);
         const updatedUser = await this.usersService.save(user);
         if (!updatedUser) {
             throw new HttpException(
@@ -45,6 +44,18 @@ export class UsersController {
             );
         }
         return updatedUser;
+    }
+
+    async formatRoles(usersRoles) {
+        const roles = await this.usersService.getRoles();
+
+        return roles.filter(
+            (r) =>
+                usersRoles.find((userRole, i) => {
+                    console.log(userRole == r._id || userRole == r.roleCode);
+                    return userRole == r._id || userRole == r.roleCode;
+                }) != null,
+        );
     }
 
     @Get(':userId/activation')
@@ -69,8 +80,13 @@ export class UsersController {
                 HttpStatus.NOT_FOUND,
             );
         }
+        console.log(user);
 
         user.isActive = isActive;
+
+        console.log(user.roles);
+        console.log(await this.formatRoles(user.roles));
+        console.log(user.roles);
 
         const updatedUser = await this.usersService.save(user);
         if (!updatedUser) {
