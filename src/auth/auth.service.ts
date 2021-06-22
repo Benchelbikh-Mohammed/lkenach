@@ -59,6 +59,7 @@ export class AuthService {
         // console.log(user);
 
         const userPayload = {
+            id : user._id,
             email: user.email,
             isActive: user.isActive,
             roles: await this.formatRoles(user.roles),

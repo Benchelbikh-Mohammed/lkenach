@@ -31,6 +31,18 @@ export const StoreProductSchema = SchemaFactory.createForClass(StoreProduct);
 export class Store {
     _id: string;
 
+    @Prop()        
+    store_name: string;
+
+    @Prop()
+    type: string;
+
+    @Prop()
+    description: string;
+
+    @Prop()
+    adresse: string;
+
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
     user_id: string;
 
