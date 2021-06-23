@@ -39,7 +39,7 @@ export class AuthController {
     @UseInterceptors(ClassSerializerInterceptor)
     async register(
         @Body() userRegistrationDto: UserRegistrationDto,
-    ): Promise<string> {
+    ): Promise<any> {
         if (
             userRegistrationDto.password !== userRegistrationDto.confirmPassword
         ) {
@@ -58,6 +58,6 @@ export class AuthController {
                 HttpStatus.INTERNAL_SERVER_ERROR,
             );
         }
-        return JSON.stringify(userRegistered);
+        return JSON.parse(JSON.stringify(userRegistered));
     }
 }

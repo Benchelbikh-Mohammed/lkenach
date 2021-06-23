@@ -15,4 +15,5 @@ export class UserRegistrationDto {
     @IsNotEmpty()
     @MinLength(4, { message: 'password must a least contains 4 characters' })
     confirmPassword: string;
+
 }
