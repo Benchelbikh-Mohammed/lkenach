@@ -21,14 +21,12 @@ export class AuthService {
             const { email } = userLoginDto;
             const user = await this.userService.findEmail(email);
 
-            const { _id, password, isActive } = user;
-
             return {
-                _id,
-                email,
-                password,
-                isActive,
-                roles: await this.formatRoles(user.roles),
+                _id: user?._id,
+                email: user?.email,
+                password: user?.password,
+                isActive: user?.isActive,
+                roles: await this.formatRoles(user?.roles),
             };
         } catch (error) {
             Logger.error(error);
@@ -59,7 +57,7 @@ export class AuthService {
         // console.log(user);
 
         const userPayload = {
-            id : user._id,
+            id: user._id,
             email: user.email,
             isActive: user.isActive,
             roles: await this.formatRoles(user.roles),

@@ -7,8 +7,14 @@ export type ProductDocument = Document & Product;
 export class Product {
     _id: string;
 
-    @Prop({required})
+    @Prop({ required })
     name: string;
+
+    @Prop({ required })
+    measurement_unit: Unit;
+
+    @Prop()
+    unit_per_product: number;
 
     @Prop({ required })
     thumbnail: string;
@@ -24,7 +30,6 @@ export class Product {
 
     @Prop()
     brand: string;
-
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
