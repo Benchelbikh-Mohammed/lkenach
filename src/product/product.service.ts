@@ -29,6 +29,10 @@ export class ProductService {
         return this.model.find().exec();
     }
 
+    findBycodeBar(code_bar : number) {
+        return this.model.findOne({ code_bar });
+    }
+
     findOne(id: string) {
         return this.model.findById(id).exec();
     }

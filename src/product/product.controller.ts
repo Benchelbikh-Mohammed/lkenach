@@ -29,8 +29,10 @@ export class ProductController {
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.productService.findOne(id);
+        return this.productService.findBycodeBar(+id);
     }
+
+
 
     @Patch(':id')
     update(
