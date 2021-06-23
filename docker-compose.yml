@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+    lkenach:
+        image: lkenach
+        restart: always
+        build: .
+        environment:
+            NODE_ENV: production
+        ports:
+            - 3000:3000
+        volumes:
+            - .:/usr/src/app
+        links:
+            - db
+        depends_on:
+            - db
+    db:
+        image: mongo:latest
+        container_name: mongo_db
+        volumes:
+            - data:/data/db
+        ports:
+            - '27017:27017'
+
+volumes:
+    data:
