@@ -16,6 +16,7 @@ import { Public } from 'src/auth/decorators/public.decorator';
 export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
+    @Public()
     @Post()
     create(@Body() createProductDto: CreateProductDto) {
         return this.productService.create(createProductDto);
@@ -31,8 +32,6 @@ export class ProductController {
     findOne(@Param('id') id: string) {
         return this.productService.findBycodeBar(+id);
     }
-
-
 
     @Patch(':id')
     update(

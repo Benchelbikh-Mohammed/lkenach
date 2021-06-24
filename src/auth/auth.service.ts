@@ -21,13 +21,15 @@ export class AuthService {
             const { email } = userLoginDto;
             const user = await this.userService.findEmail(email);
 
-            return {
-                _id: user?._id,
-                email: user?.email,
-                password: user?.password,
-                isActive: user?.isActive,
-                roles: await this.formatRoles(user?.roles),
-            };
+            return (
+                user && {
+                    _id: user?._id,
+                    email: user?.email,
+                    password: user?.password,
+                    isActive: user?.isActive,
+                    roles: await this.formatRoles(user?.roles),
+                }
+            );
         } catch (error) {
             Logger.error(error);
             return null;
@@ -76,6 +78,9 @@ export class AuthService {
         userRegistrationDto: UserRegistrationDto,
     ): Promise<User> {
         const validate = await this.validate(userRegistrationDto);
+        console.log('*****************************');
+        console.log(validate);
+        console.log('*****************************');
         if (validate) return null;
 
         const user: User = {

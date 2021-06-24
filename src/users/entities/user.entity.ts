@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Role } from 'src/roles/entities/role.entity';
-import { RoleCode } from 'src/roles/entities/roleCode.enum';
 
 export type UserDocument = Document & User;
 
