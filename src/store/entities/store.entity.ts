@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type StoreDocument = Document & Store;
 
-interface StoreProducrInterface {
+export interface StoreProductInterface {
     product_id: string;
     qte: number;
     purchase_price: number;
@@ -11,7 +11,7 @@ interface StoreProducrInterface {
 }
 
 @Schema()
-class StoreProduct {
+export class StoreProduct {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
     product_id: string;
 
@@ -31,7 +31,7 @@ export const StoreProductSchema = SchemaFactory.createForClass(StoreProduct);
 export class Store {
     _id: string;
 
-    @Prop()        
+    @Prop()
     store_name: string;
 
     @Prop()
@@ -47,7 +47,7 @@ export class Store {
     user_id: string;
 
     @Prop({ type: [StoreProductSchema], default: [] })
-    products: StoreProducrInterface[];
+    products: StoreProductInterface[];
 }
 
 export const StoreSchema = SchemaFactory.createForClass(Store);

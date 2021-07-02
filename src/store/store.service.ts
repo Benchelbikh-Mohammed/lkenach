@@ -30,8 +30,8 @@ export class StoreService {
         return `This action returns a #${id} store`;
     }
 
-    update(id: number, updateStoreDto: UpdateStoreDto) {
-        return `This action updates a #${id} store`;
+    update(id: string, updateStoreDto: UpdateStoreDto) {
+        return this.model.findByIdAndUpdate(id, updateStoreDto).exec();
     }
 
     remove(id: number) {
