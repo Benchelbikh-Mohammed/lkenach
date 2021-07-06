@@ -26,6 +26,10 @@ export class StoreService {
         return this.model.find().exec();
     }
 
+    findStoreByUserId(user_id) {
+        return this.model.find({ user_id }).exec();
+    }
+
     findOne(id: number) {
         return `This action returns a #${id} store`;
     }

@@ -10,5 +10,6 @@ import { Store, StoreSchema } from './entities/store.entity';
     ],
     controllers: [StoreController],
     providers: [StoreService],
+    exports: [StoreService],
 })
 export class StoreModule {}

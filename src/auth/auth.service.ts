@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { UserRegistrationDto } from '../users/dto/userRegistration.dto';
 import { UserLoginDto } from '../users/dto/userLogin.dto';
 import { RoleCode } from 'src/roles/entities/roleCode.enum';
+import { StoreService } from 'src/store/store.service';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
         private readonly userService: UsersService,
         private readonly confService: ConfigService,
+        private readonly storeService: StoreService,
     ) {}
 
     public async validate(userLoginDto: UserLoginDto): Promise<User> {
@@ -63,6 +65,7 @@ export class AuthService {
             email: user.email,
             isActive: user.isActive,
             roles: await this.formatRoles(user.roles),
+            store_ids: await this.storeService.findStoreByUserId(user._id),
         };
         const accessToken = this.jwtService.sign(userPayload);
 

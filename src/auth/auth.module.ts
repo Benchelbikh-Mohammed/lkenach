@@ -12,10 +12,12 @@ import { jwtConfig } from 'src/config/jwt.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RolesModule } from 'src/roles/roles.module';
 import { RolesService } from 'src/roles/roles.service';
+import { StoreModule } from 'src/store/store.module';
 
 @Module({
     imports: [
         ConfigModule,
+        StoreModule,
         forwardRef(() => UsersModule),
         forwardRef(() => RolesModule),
         PassportModule.register({ defaultStrategy: 'jwt' }),
