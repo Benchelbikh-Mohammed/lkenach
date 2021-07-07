@@ -15,13 +15,19 @@ import { UpdateStoreDto } from './dto/update-store.dto';
 import { AddProduct2StoreDto } from './dto/add-product-store.dto';
 import { CreateProductDto } from 'src/product/dto/create-product.dto';
 
+import { Public } from './../auth/decorators/public.decorator';
 @Controller('store')
 export class StoreController {
     constructor(private readonly storeService: StoreService) {}
-
+    @Public()
     @Post()
     create(@Body() createStoreDto: CreateStoreDto) {
         return this.storeService.create(createStoreDto);
+    }
+
+    @Get()
+    findAll() {
+        return this.storeService.findAll();
     }
 
     @Post(':id/product')
@@ -30,11 +36,6 @@ export class StoreController {
         @Body() product: AddProduct2StoreDto & CreateProductDto,
     ) {
         return this.storeService.addProductToStore(id, product);
-    }
-
-    @Get()
-    findAll() {
-        return this.storeService.findAll();
     }
 
     @Get(':id')
