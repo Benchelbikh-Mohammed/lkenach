@@ -8,6 +8,8 @@ import {
     UseGuards,
     Get,
     Query,
+    Logger,
+    Patch,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
@@ -15,8 +17,10 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/role.decorator';
 import { RoleCode } from '../roles/entities/roleCode.enum';
 import { UsersRolesDto } from './dto/usersRoles.dto';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller('api/users')
+@Controller('user')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
@@ -44,6 +48,11 @@ export class UsersController {
             );
         }
         return updatedUser;
+    }
+    @Public()
+    @Get()
+    async findAll() {
+        return this.usersService.findAll();
     }
 
     async formatRoles(usersRoles) {
@@ -96,5 +105,22 @@ export class UsersController {
             );
         }
         return updatedUser;
+    }
+
+    @Public()
+    @Get(':userId')
+    async getUSer(@Param('userId') userId: number): Promise<User> {
+        try {
+            return await this.usersService.findById(userId);
+        } catch (error) {
+            Logger.error(error);
+        }
+    }
+
+    @Public()
+    @Patch(':id')
+    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+        console.log('patch');
+        return this.usersService.update(id, updateUserDto);
     }
 }

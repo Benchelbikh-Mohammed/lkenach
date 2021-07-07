@@ -6,6 +6,8 @@ import { RoleCode } from '../roles/entities/roleCode.enum';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Role } from 'src/roles/entities/role.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { StoreService } from 'src/store/store.service';
 
 @Injectable()
 export class UsersService {
@@ -13,7 +15,16 @@ export class UsersService {
         private readonly roleService: RolesService,
         @InjectModel(User.name)
         private readonly model: Model<UserDocument>,
+        private readonly storeService: StoreService,
     ) {}
+
+    async findAll() {
+        try {
+            return this.model.find();
+        } catch (error) {
+            Logger.error(error);
+        }
+    }
 
     async getRoles() {
         try {
@@ -79,6 +90,10 @@ export class UsersService {
         }
     }
 
+    async getStore(id) {
+        return await this.storeService.findStoreByUserId(id);
+    }
+
     async save(user: User): Promise<User> {
         try {
             return await new this.model(user).save();
@@ -90,5 +105,9 @@ export class UsersService {
 
     encryptPassword(password: string): string {
         return crypto.createHmac('sha256', password).digest('hex');
+    }
+
+    async update(id: string, updateUserDto: UpdateUserDto) {
+        return this.model.findByIdAndUpdate(id, updateUserDto).exec();
     }
 }

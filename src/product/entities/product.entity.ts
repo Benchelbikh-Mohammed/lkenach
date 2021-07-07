@@ -10,13 +10,13 @@ export class Product {
     @Prop({ required })
     name: string;
 
-    @Prop({ required })
+    @Prop()
     measurement_unit: Unit;
 
     @Prop()
     unit_per_product: number;
 
-    @Prop({ required })
+    @Prop()
     thumbnail: string;
 
     @Prop({ required })

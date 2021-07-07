@@ -6,6 +6,8 @@ import {
     Patch,
     Param,
     Delete,
+    HttpException,
+    HttpStatus,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -29,8 +31,21 @@ export class ProductController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.productService.findBycodeBar(+id);
+    async findOne(@Param('id') id: number) {
+        if (isNaN(id))
+            throw new HttpException(
+                `[${id} is not a valid codebar]`,
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        const product = await this.productService.findBycodeBar(id);
+        if (!product) {
+            throw new HttpException(
+                `product [codebar=${id}] not found`,
+                HttpStatus.NOT_FOUND,
+            );
+        }
+
+        return product;
     }
 
     @Patch(':id')

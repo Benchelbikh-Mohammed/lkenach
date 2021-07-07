@@ -6,11 +6,14 @@ import {
     Patch,
     Param,
     Delete,
+    HttpException,
+    HttpStatus,
 } from '@nestjs/common';
 import { StoreService } from './store.service';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { AddProduct2StoreDto } from './dto/add-product-store.dto';
+import { CreateProductDto } from 'src/product/dto/create-product.dto';
 
 @Controller('store')
 export class StoreController {
@@ -21,6 +24,14 @@ export class StoreController {
         return this.storeService.create(createStoreDto);
     }
 
+    @Post(':id/product')
+    addProduc(
+        @Param('id') id: string,
+        @Body() product: AddProduct2StoreDto & CreateProductDto,
+    ) {
+        return this.storeService.addProductToStore(id, product);
+    }
+
     @Get()
     findAll() {
         return this.storeService.findAll();
@@ -28,12 +39,13 @@ export class StoreController {
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.storeService.findOne(+id);
+        return this.storeService.findOne(id);
     }
 
     @Patch(':id')
     update(@Param('id') id: string, @Body() updateStoreDto: UpdateStoreDto) {
-        return this.storeService.update(id, updateStoreDto);
+        this.storeService.update(id, updateStoreDto);
+        return this.storeService.findOne(id);
     }
 
     @Delete(':id')
