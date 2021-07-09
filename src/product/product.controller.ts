@@ -13,6 +13,7 @@ import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { Query } from 'mongoose';
 
 @Controller('product')
 export class ProductController {
@@ -39,13 +40,15 @@ export class ProductController {
             );
         const product = await this.productService.findBycodeBar(id);
         if (!product) {
-            throw new HttpException(
-                `product [codebar=${id}] not found`,
-                HttpStatus.NOT_FOUND,
-            );
+            throw new HttpException(`product [codebar=${id}] not found`, 201);
         }
 
         return product;
+    }
+
+    @Get('/reference/:id')
+    async findById(@Param('id') id: string) {
+        return this.productService.findOne(id);
     }
 
     @Patch(':id')

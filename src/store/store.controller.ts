@@ -38,6 +38,18 @@ export class StoreController {
         return this.storeService.addProductToStore(id, product);
     }
 
+    @Get(':id/product/:productId')
+    async findByReference(
+        @Param('id') id: string,
+        @Param('productId') productId: string,
+    ) {
+        const store = await this.storeService.findOne(id);
+
+        const found = store.products.some((e) => e.product_id == productId);
+
+        if (!found)
+            throw new HttpException(`product [id=${id}] not found`, 201);
+    }
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.storeService.findOne(id);
