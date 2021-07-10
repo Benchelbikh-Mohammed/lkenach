@@ -5,6 +5,7 @@ export type StoreDocument = Document & Store;
 
 export interface StoreProductInterface {
     product_id: string;
+    code_bar: number;
     qte: number;
     purchase_price: number;
     sale_price: number;
@@ -14,6 +15,9 @@ export interface StoreProductInterface {
 export class StoreProduct {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
     product_id: string;
+
+    @Prop({ required: true })
+    code_bar: number;
 
     @Prop()
     qte: number;
