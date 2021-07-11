@@ -26,6 +26,8 @@ export class AuthService {
             return (
                 user && {
                     _id: user?._id,
+                    firstname: user?.firstname,
+                    lastname: user?.lastname,
                     email: user?.email,
                     password: user?.password,
                     isActive: user?.isActive,
@@ -87,6 +89,8 @@ export class AuthService {
         if (validate) return null;
 
         const user: User = {
+            firstname: userRegistrationDto.firstname,
+            lastname: userRegistrationDto.lastname,
             email: userRegistrationDto.email,
             password: userRegistrationDto.password,
             isActive: null,

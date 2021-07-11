@@ -42,6 +42,9 @@ export class Store {
     type: string;
 
     @Prop()
+    cash?: number;
+
+    @Prop()
     description: string;
 
     @Prop()

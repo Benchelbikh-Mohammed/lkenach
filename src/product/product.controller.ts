@@ -8,12 +8,15 @@ import {
     Delete,
     HttpException,
     HttpStatus,
+    UseInterceptors,
+    UploadedFile,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { Query } from 'mongoose';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('product')
 export class ProductController {
@@ -21,6 +24,14 @@ export class ProductController {
 
     @Public()
     @Post()
+    @UseInterceptors(
+        FileInterceptor('photo', {
+            dest: './uploads',
+        }),
+    )
+    uploadFile(@UploadedFile() file: Express.Multer.File) {
+        console.log(file);
+    }
     create(@Body() createProductDto: CreateProductDto) {
         return this.productService.create(createProductDto);
     }

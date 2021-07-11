@@ -9,6 +9,12 @@ export class UserRegistrationDto {
     email: string;
 
     @IsNotEmpty()
+    firstname: string;
+
+    @IsNotEmpty()
+    lastname: string;
+
+    @IsNotEmpty()
     @MinLength(4, { message: 'password must a least contains 4 characters' })
     password: string;
 
