@@ -120,7 +120,9 @@ export class UsersController {
     @Public()
     @Patch(':id')
     update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-        console.log('patch');
-        return this.usersService.update(id, updateUserDto);
+        const password = this.usersService.encryptPassword(
+            updateUserDto.password,
+        );
+        return this.usersService.update(id, { ...updateUserDto, password });
     }
 }
