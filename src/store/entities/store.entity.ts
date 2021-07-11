@@ -41,7 +41,7 @@ export class Store {
     @Prop()
     type: string;
 
-    @Prop()
+    @Prop({ default: 0 })
     cash: number;
 
     @Prop()
