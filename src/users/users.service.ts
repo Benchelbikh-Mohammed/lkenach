@@ -108,9 +108,17 @@ export class UsersService {
     }
 
     async update(id: string, updateUserDto: UpdateUserDto) {
-        const password = this.encryptPassword(updateUserDto.password);
-        return this.model
-            .findByIdAndUpdate(id, { ...updateUserDto, password })
-            .exec();
+        if (updateUserDto?.password) {
+            console.log('ndjd');
+
+            console.log(updateUserDto.password);
+            updateUserDto.password = this.encryptPassword(
+                updateUserDto.password,
+            );
+
+            console.log(updateUserDto.password);
+        }
+
+        return this.model.findByIdAndUpdate(id, updateUserDto).exec();
     }
 }
