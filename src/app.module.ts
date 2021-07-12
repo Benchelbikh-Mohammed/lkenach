@@ -12,7 +12,8 @@ import { AuthModule } from './auth/auth.module';
 import { jwtConfig } from './config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
 import { StoreModule } from './store/store.module';
-import { SalesModule } from './sales/sales.module';
+import { salesModule } from './sales/sales.module';
+import { PurchaseModule } from './purchase/purchase.module';
 
 @Module({
     imports: [
@@ -24,7 +25,8 @@ import { SalesModule } from './sales/sales.module';
         UsersModule,
         RolesModule,
         StoreModule,
-        SalesModule,
+        salesModule,
+        PurchaseModule,
     ],
     controllers: [AppController],
     providers: [AppService, AuthService],

@@ -1,3 +1,3 @@
-import { Sale } from '../entities/sale.entity';
+import { sale } from '../entities/sale.entity';
 
-export class CreateSaleDto extends Sale {}
+export class CreatesaleDto extends sale {}

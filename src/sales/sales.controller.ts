@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SalesService } from './sales.service';
-import { CreateSaleDto } from './dto/create-sale.dto';
-import { UpdateSaleDto } from './dto/update-sale.dto';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+} from '@nestjs/common';
+import { salesService } from './sales.service';
+import { CreatesaleDto } from './dto/create-sale.dto';
+import { UpdatesaleDto } from './dto/update-sale.dto';
 
 @Controller('sales')
-export class SalesController {
-  constructor(private readonly salesService: SalesService) {}
+export class salesController {
+    constructor(private readonly salesService: salesService) {}
 
-  @Post()
-  create(@Body() createSaleDto: CreateSaleDto) {
-    return this.salesService.create(createSaleDto);
-  }
+    @Post()
+    create(@Body() createsaleDto: CreatesaleDto) {
+        return this.salesService.create(createsaleDto);
+    }
 
-  @Get()
-  findAll() {
-    return this.salesService.findAll();
-  }
+    @Get()
+    findAll() {
+        return this.salesService.findAll();
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.salesService.findOne(+id);
-  }
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+        return this.salesService.findOne(+id);
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSaleDto: UpdateSaleDto) {
-    return this.salesService.update(+id, updateSaleDto);
-  }
+    @Patch(':id')
+    update(@Param('id') id: string, @Body() updatesaleDto: UpdatesaleDto) {
+        return this.salesService.update(+id, updatesaleDto);
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.salesService.remove(+id);
-  }
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return this.salesService.remove(+id);
+    }
 }

@@ -29,7 +29,7 @@ export class ProductService {
         return this.model.find().exec();
     }
 
-    findBycodeBar(code_bar: number) {
+    findBycodeBar(code_bar: number): Promise<Product> {
         return this.model.findOne({ code_bar }).exec();
     }
 

@@ -5,10 +5,10 @@ import {
     StoreProductSchema,
 } from 'src/store/entities/store.entity';
 
-export type SalesDocument = Document & Sale;
+export type salesDocument = Document & sale;
 
 @Schema()
-export class Sale {
+export class sale {
     _id: string;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Store' })
@@ -30,4 +30,4 @@ export class Sale {
     products: StoreProductInterface[];
 }
 
-export const SalesSchema = SchemaFactory.createForClass(Sale);
+export const salesSchema = SchemaFactory.createForClass(sale);

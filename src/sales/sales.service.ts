@@ -1,24 +1,24 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateSaleDto } from './dto/create-sale.dto';
-import { UpdateSaleDto } from './dto/update-sale.dto';
-import { Sale, SalesDocument } from './entities/sale.entity';
+import { CreatesaleDto } from './dto/create-sale.dto';
+import { UpdatesaleDto } from './dto/update-sale.dto';
+import { sale, salesDocument } from './entities/sale.entity';
 
 @Injectable()
-export class SalesService {
+export class salesService {
     constructor(
-        @InjectModel(Sale.name)
-        private readonly model: Model<SalesDocument>,
+        @InjectModel(sale.name)
+        private readonly model: Model<salesDocument>,
     ) {}
 
-    create(createSaleDto: CreateSaleDto) {
+    create(createsaleDto: CreatesaleDto) {
         try {
-            const created = new this.model(createSaleDto);
+            const created = new this.model(createsaleDto);
 
             const balence =
-                createSaleDto.total_cashed -
-                createSaleDto.products
+                createsaleDto.total_cashed -
+                createsaleDto.products
                     .map((product) => product.sale_price * product.qte)
                     .reduce((e, s) => e + s, 0);
 
@@ -40,7 +40,7 @@ export class SalesService {
         return `This action returns a #${id} sale`;
     }
 
-    update(id: number, updateSaleDto: UpdateSaleDto) {
+    update(id: number, updatesaleDto: UpdatesaleDto) {
         return `This action updates a #${id} sale`;
     }
 

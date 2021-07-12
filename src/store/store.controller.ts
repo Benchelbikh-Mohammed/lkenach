@@ -48,7 +48,12 @@ export class StoreController {
         const found = store.products.some((e) => e.code_bar == code_bar);
 
         if (!found)
-            throw new HttpException(`product [id=${id}] not found`, 201);
+            throw new HttpException(
+                `product [codebar=${code_bar}] not found`,
+                201,
+            );
+
+        return store.products.filter((p) => p.code_bar == code_bar)[0];
     }
     @Get(':id')
     findOne(@Param('id') id: string) {
