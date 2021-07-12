@@ -25,9 +25,14 @@ export class salesController {
         return this.salesService.findAll();
     }
 
+    @Get('/store/:id')
+    find(@Param('id') id: string) {
+        return this.salesService.findByStore(id);
+    }
+
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.salesService.findOne(+id);
+        return this.salesService.findOne(id);
     }
 
     @Patch(':id')

@@ -57,6 +57,7 @@ export class StoreController {
     }
     @Get(':id')
     findOne(@Param('id') id: string) {
+        console.log('he');
         return this.storeService.findOne(id);
     }
 

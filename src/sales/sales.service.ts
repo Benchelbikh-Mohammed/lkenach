@@ -36,8 +36,12 @@ export class salesService {
         return this.model.find().exec();
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} sale`;
+    findByStore(store_id) {
+        return this.model.find({ store_id }).exec();
+    }
+
+    findOne(id: string) {
+        return this.model.findById(id).exec();
     }
 
     update(id: number, updatesaleDto: UpdatesaleDto) {
