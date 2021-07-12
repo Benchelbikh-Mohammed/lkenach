@@ -24,14 +24,6 @@ export class ProductController {
 
     @Public()
     @Post()
-    @UseInterceptors(
-        FileInterceptor('photo', {
-            dest: './uploads',
-        }),
-    )
-    uploadFile(@UploadedFile() file: Express.Multer.File) {
-        console.log(file);
-    }
     create(@Body() createProductDto: CreateProductDto) {
         return this.productService.create(createProductDto);
     }
