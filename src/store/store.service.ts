@@ -36,18 +36,17 @@ export class StoreService {
         const p = await this.productService.findBycodeBar(product.code_bar);
 
         if (!p) return;
-        delete p._id;
 
-        this.purchaseService.create({
-            product_name: product.name,
+        const res = await this.purchaseService.create({
+            product_name: p.name,
             qte: product.qte,
             store_id: id,
             transaction_date: new Date(),
             unit_price: product.purchase_price,
         });
+        console.log('res', res);
 
         const { products } = await this.findOne(id);
-        console.log('debuuuug', { ...p });
         return this.update(id, {
             products: [
                 ...products,

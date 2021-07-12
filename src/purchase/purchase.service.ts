@@ -14,6 +14,7 @@ export class PurchaseService {
     ) {}
 
     create(createPurchaseDto: CreatePurchaseDto) {
+        console.log(createPurchaseDto);
         return new this.model(createPurchaseDto).save();
     }
 
