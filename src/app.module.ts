@@ -15,8 +15,14 @@ import { StoreModule } from './store/store.module';
 import { salesModule } from './sales/sales.module';
 import { PurchaseModule } from './purchase/purchase.module';
 
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
 @Module({
     imports: [
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..', 'public'),
+        }),
         ConfigModule.forRoot(),
         ProductModule,
         MongooseModule.forRootAsync(mongooseConfigAsync),
@@ -31,4 +37,4 @@ import { PurchaseModule } from './purchase/purchase.module';
     controllers: [AppController],
     providers: [AppService, AuthService],
 })
-export class AppModule {}
+export class AppModule { }
