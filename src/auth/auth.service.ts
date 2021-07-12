@@ -52,7 +52,7 @@ export class AuthService {
     ): Promise<User> {
         try {
             const { email, password } = userLoginDto;
-            console.log('debuug', email, password);
+            return this.userService.find(email, password);
         } catch (error) {
             Logger.error(error);
             return null;
