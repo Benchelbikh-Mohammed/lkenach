@@ -21,8 +21,12 @@ export class PurchaseService {
         return this.model.find().exec();
     }
 
+    findBystore(store_id: string) {
+        return this.model.find({ store_id }).exec();
+    }
+
     findOne(id: string) {
-        return this.model.findById(id).exec;
+        return this.model.findById(id).exec();
     }
 
     update(id: string, updatePurchaseDto: UpdatePurchaseDto) {

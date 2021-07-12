@@ -20,6 +20,11 @@ export class PurchaseController {
         return this.purchaseService.create(createPurchaseDto);
     }
 
+    @Get('store/:id')
+    findByStore(@Param('id') id: string) {
+        return this.purchaseService.findBystore(id);
+    }
+
     @Get()
     findAll() {
         return this.purchaseService.findAll();
