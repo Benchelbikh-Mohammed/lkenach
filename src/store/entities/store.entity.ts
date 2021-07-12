@@ -6,11 +6,11 @@ import { classToClass } from 'class-transformer';
 export type StoreDocument = Document & Store;
 
 export interface StoreProductInterface {
-    product_id: string;
+    product_id?: string;
     code_bar: number;
     qte: number;
     sale_price: number;
-    purchase_price: number;
+    purchase_price?: number;
 }
 
 @Schema()

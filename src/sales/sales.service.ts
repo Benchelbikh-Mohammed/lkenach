@@ -44,7 +44,7 @@ export class salesService {
         return `This action updates a #${id} sale`;
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} sale`;
+    remove(id: string) {
+        return this.model.findByIdAndDelete(id);
     }
 }
