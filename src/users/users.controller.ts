@@ -22,7 +22,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {}
+    constructor(private readonly usersService: UsersService) { }
 
     @Post(':userId/roles')
     @UseGuards(RolesGuard)
@@ -119,7 +119,25 @@ export class UsersController {
 
     @Public()
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+        try {
+            var user: User = await this.usersService.findById(id);
+        } catch (error) {
+            Logger.error(error);
+        }
+
         return this.usersService.update(id, updateUserDto);
     }
+    @Public()
+    @Patch(':id/password')
+    async updatePassword(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+        try {
+            var user: User = await this.usersService.findById(id);
+        } catch (error) {
+            Logger.error(error);
+        }
+
+        return this.usersService.updatePassword(id, updateUserDto, user)
+    }
+
 }

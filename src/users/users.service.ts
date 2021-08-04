@@ -16,7 +16,7 @@ export class UsersService {
         @InjectModel(User.name)
         private readonly model: Model<UserDocument>,
         private readonly storeService: StoreService,
-    ) {}
+    ) { }
 
     async findAll() {
         try {
@@ -107,7 +107,8 @@ export class UsersService {
         return crypto.createHmac('sha256', password).digest('hex');
     }
 
-    async update(id: string, updateUserDto: UpdateUserDto) {
+    async update(id: number, updateUserDto: UpdateUserDto) {
+
         if (updateUserDto?.password) {
             console.log('ndjd');
 
@@ -120,5 +121,20 @@ export class UsersService {
         }
 
         return this.model.findByIdAndUpdate(id, updateUserDto).exec();
+    }
+    async updatePassword(id: number, updateUserDto: UpdateUserDto, user: User) {
+
+        if (updateUserDto?.password) {
+            console.log('ndjd');
+
+            console.log(updateUserDto.password);
+            updateUserDto.password = this.encryptPassword(
+                updateUserDto.password,
+            );
+
+            console.log(updateUserDto.password);
+        }
+        user.password = updateUserDto.password;
+        return this.model.findByIdAndUpdate(id, user).exec();
     }
 }

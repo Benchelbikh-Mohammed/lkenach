@@ -12,11 +12,12 @@ export class ProductService {
         private readonly model: Model<ProductDocument>,
     ) {}
 
-    create(createProductDto: CreateProductDto) {
+    create(createProductDto: CreateProductDto, thumbnail:String) {
         try {
             const created = new this.model({
                 ...createProductDto,
                 createdAt: Date.now(),
+                thumbnail: thumbnail,
             });
 
             return created.save();

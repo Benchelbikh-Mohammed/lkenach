@@ -11,6 +11,8 @@ import {
     UseInterceptors,
     UploadedFile,
 } from '@nestjs/common';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -20,18 +22,50 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('product')
 export class ProductController {
-    constructor(private readonly productService: ProductService) {}
+
+    SERVER_URL: string = "http://15.237.15.44:3000/";
+    constructor(private readonly productService: ProductService) { }
 
     @Public()
     @Post()
-    create(@Body() createProductDto: CreateProductDto) {
-        return this.productService.create(createProductDto);
+    @UseInterceptors(FileInterceptor('thumbnail',
+        {
+            storage: diskStorage({
+                destination: './public',
+                filename: (req, file, cb) => {
+                    const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('')
+                    return cb(null, `${randomName}${extname(file.originalname)}`)
+                }
+            })
+        }
+    )
+    )
+    create(@Body() createProductDto: CreateProductDto, @UploadedFile() thumbnail) {
+        return this.productService.create(createProductDto, `${thumbnail.filename}`);
     }
 
     @Public()
     @Get()
     findAll() {
         return this.productService.findAll();
+    }
+    @Public()
+    @Post('image')
+    @UseInterceptors(FileInterceptor('file',
+        {
+            storage: diskStorage({
+                destination: './public',
+                filename: (req, file, cb) => {
+                    const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('')
+                    return cb(null, `${randomName}${extname(file.originalname)}`)
+                }
+            })
+        }
+    )
+    )
+    uploadAvatar(@Param('id') id, @UploadedFile() file) {
+        // this.userService.setAvatar(Number(userId), `${this.SERVER_URL}${file.path}`);
+        console.log(file.filename)
     }
 
     @Get(':id')
